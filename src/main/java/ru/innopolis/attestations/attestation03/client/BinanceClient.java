@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import ru.innopolis.attestations.attestation03.entity.CryptoCandle;
+import ru.innopolis.attestations.attestation03.model.CryptoCandle;
 
 import java.math.BigDecimal;
 import java.time.Instant;
