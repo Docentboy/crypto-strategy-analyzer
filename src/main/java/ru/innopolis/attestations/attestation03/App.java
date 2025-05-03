@@ -22,9 +22,9 @@ public class App {
     public CommandLineRunner runSimulation(PortfolioSimulator simulator) {
         return args -> {
             Map<String, BigDecimal> weights = Map.of(
-                    "BTCUSDT", new BigDecimal("0.25"),
-                    "ETHUSDT", new BigDecimal("0.25"),
-                    "USDT", new BigDecimal("0.5")
+                    "BTCUSDT", new BigDecimal("0.33"),
+                    "ETHUSDT", new BigDecimal("0.33"),
+                    "USDT", new BigDecimal("0.34")
             );
 
             Portfolio portfolio = new Portfolio();
@@ -33,8 +33,8 @@ public class App {
             portfolio.getHoldings().put("USDT", new BigDecimal("1000"));
 
             simulator.simulate(
-                    LocalDate.of(2025, 4, 2),
-                    LocalDate.of(2025, 5, 1),
+                    LocalDate.of(2021, 1, 1),
+                    LocalDate.of(2023, 1, 1),
                     weights,
                     portfolio
             );
