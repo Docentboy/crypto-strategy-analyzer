@@ -3,7 +3,7 @@ package ru.innopolis.attestations.attestation03.sheduler;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import ru.innopolis.attestations.attestation03.client.BinanceClient;
-import ru.innopolis.attestations.attestation03.entity.CryptoCandle;
+import ru.innopolis.attestations.attestation03.model.CryptoCandle;
 import ru.innopolis.attestations.attestation03.service.CryptoCandleService;
 
 import java.time.LocalDate;

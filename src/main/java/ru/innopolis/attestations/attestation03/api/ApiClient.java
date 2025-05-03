@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import ru.innopolis.attestations.attestation03.entity.CryptoCandle;
+import ru.innopolis.attestations.attestation03.model.CryptoCandle;
 
 import java.util.List;
 
@@ -30,8 +30,6 @@ public class ApiClient {
 
     private List<CryptoCandle> parseJsonToCandles(String jsonResponse) throws JsonProcessingException {
         // Преобразование JSON в объекты
-        // Используй библиотеки типа Jackson или Gson для этого
-        // Пример:
         return new ObjectMapper().readValue(jsonResponse, new TypeReference<List<CryptoCandle>>(){});
     }
 }

@@ -1,6 +1,6 @@
 package ru.innopolis.attestations.attestation03.service;
 
-import ru.innopolis.attestations.attestation03.entity.CryptoCandle;
+import ru.innopolis.attestations.attestation03.model.CryptoCandle;
 
 import java.util.List;
 
