@@ -10,7 +10,5 @@ public interface CryptoCandleService {
 
     List<CryptoCandle> getCandles(String symbol);
 
-    void save(CryptoCandle candle);
-
     void saveAll(List<CryptoCandle> candles);
 }

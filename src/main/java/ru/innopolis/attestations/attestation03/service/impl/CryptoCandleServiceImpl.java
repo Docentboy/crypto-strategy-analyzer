@@ -47,11 +47,6 @@ public class CryptoCandleServiceImpl implements CryptoCandleService {
     }
 
     @Override
-    public void save(CryptoCandle candle) {
-        candleRepository.save(candle);
-    }
-
-    @Override
     public void saveAll(List<CryptoCandle> candles) {
         List<CryptoCandle> filtered = candles.stream()
                 .filter(candle -> !candleRepository.existsBySymbolAndDate(candle.getSymbol(), candle.getDate()))
