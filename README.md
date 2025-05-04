@@ -7,7 +7,7 @@
 
 ## Стек технологий
 
-- Java 17
+- Java 21
 - Spring Boot 3
 - Spring Data JPA (Hibernate)
 - PostgreSQL

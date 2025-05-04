@@ -3,9 +3,12 @@ package ru.innopolis.attestations.attestation03.client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import ru.innopolis.attestations.attestation03.exception.CandleParsingException;
 import ru.innopolis.attestations.attestation03.model.CryptoCandle;
 
 import java.math.BigDecimal;
@@ -18,13 +21,19 @@ import java.util.List;
 @Component
 public class BinanceClient {
 
+    private static final Logger log = LoggerFactory.getLogger(BinanceClient.class);
     private final RestTemplate restTemplate = new RestTemplate();
 
+    // Для запроса одного дня
     public List<CryptoCandle> getDailyCandles(String symbol, int limit) {
-        String uri = UriComponentsBuilder.fromHttpUrl("https://api.binance.com/api/v3/klines")
+        String uri = UriComponentsBuilder.newInstance()
+                .scheme("https")
+                .host("api.binance.com")
+                .path("/api/v3/klines")
                 .queryParam("symbol", symbol)
                 .queryParam("interval", "1d")
                 .queryParam("limit", limit)
+                .build()
                 .toUriString();
 
         List<List<Object>> response = restTemplate.getForObject(uri, List.class);
@@ -48,6 +57,7 @@ public class BinanceClient {
         return candles;
     }
 
+    // Для запроса за период времени. Возращает не более 500 записей!!!
     public List<CryptoCandle> getDailyCandles(String symbol, LocalDate startDate, LocalDate endDate) {
         long startTime = startDate.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
         long endTime = endDate.plusDays(1).atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
@@ -59,8 +69,8 @@ public class BinanceClient {
         try {
             return parseJsonToCandles(jsonResponse, symbol);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
+            log.error("Ошибка парсинга котировок для {}, ответ: {}", symbol, jsonResponse, e);
+            throw new CandleParsingException("Не удалось распарсить свечи с Binance API", e);
         }
     }
 

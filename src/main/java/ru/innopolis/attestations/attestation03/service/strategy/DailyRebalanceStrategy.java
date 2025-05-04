@@ -7,7 +7,9 @@ import ru.innopolis.attestations.attestation03.model.Portfolio;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -20,13 +22,20 @@ public class DailyRebalanceStrategy implements RebalanceStrategy {
                           Map<String, BigDecimal> closingPrices,
                           Map<String, BigDecimal> targetWeights) {
 
-        // Проверка: есть ли котировки по всем активам
+        // Соберем все отсутствующие цены
+        List<String> missing = new ArrayList<>();
         for (String symbol : targetWeights.keySet()) {
             if (!closingPrices.containsKey(symbol)) {
-                log.warn("Пропущена ребалансировка на {} — нет цены для {}", date, symbol);
-                return;
+                missing.add(symbol);
             }
         }
+
+        //TODO Реализовать запрос отсутствующих цен
+        if (!missing.isEmpty()) {
+            log.warn("Пропущена ребалансировка на {} — нет цен для: {}", date, String.join(", ", missing));
+            return;
+        }
+
 
         // Расчет полной стоимости портфеля
         BigDecimal totalValue = portfolio.getTotalValue(closingPrices);

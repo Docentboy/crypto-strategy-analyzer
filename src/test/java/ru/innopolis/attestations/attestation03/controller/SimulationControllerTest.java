@@ -7,54 +7,37 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.innopolis.attestations.attestation03.dto.SimulationRequest;
-import ru.innopolis.attestations.attestation03.service.simulation.PortfolioSimulator;
 import ru.innopolis.attestations.attestation03.repository.CryptoCandleRepository;
+import ru.innopolis.attestations.attestation03.service.simulation.PortfolioSimulator;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Map;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
 @AutoConfigureMockMvc
-@ComponentScan(basePackages = "ru.innopolis.attestations.attestation03.controller")
+@Import({SimulationController.class})
+@WebMvcTest(controllers = SimulationController.class)
 public class SimulationControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
 
     private final ObjectMapper objectMapper = new ObjectMapper()
             .registerModule(new JavaTimeModule())
             .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-
+    @Autowired
+    private MockMvc mockMvc;
     @MockBean
     private PortfolioSimulator simulator;
 
     @MockBean
     private CryptoCandleRepository candleRepository;
-
-    @Autowired
-    private ApplicationContext context;
-
-    @Test
-    void printControllers() {
-        System.out.println("🔍 Loaded Controllers:");
-        for (String name : context.getBeanDefinitionNames()) {
-            Object bean = context.getBean(name);
-            if (bean.getClass().getSimpleName().endsWith("Controller")) {
-                System.out.println("✅ " + bean.getClass().getName());
-            }
-        }
-    }
 
     @Test
     void testBadRequestOnInvalidWeights() throws Exception {
