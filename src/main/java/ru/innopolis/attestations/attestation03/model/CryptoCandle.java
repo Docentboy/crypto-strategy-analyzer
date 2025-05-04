@@ -1,4 +1,4 @@
-package ru.innopolis.attestations.attestation03.entity;
+package ru.innopolis.attestations.attestation03.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "crypto_candles", uniqueConstraints = {@UniqueConstraint(columnNames = {"symbol", "date"})})
+@Table(name = "crypto_candles", indexes = @Index(name = "idx_symbol_date", columnList = "symbol, date", unique = true))
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

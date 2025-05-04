@@ -5,7 +5,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import ru.innopolis.attestations.attestation03.entity.CryptoCandle;
+import ru.innopolis.attestations.attestation03.model.CryptoCandle;
 import ru.innopolis.attestations.attestation03.repository.CryptoCandleRepository;
 import ru.innopolis.attestations.attestation03.service.CryptoCandleService;
 
@@ -44,11 +44,6 @@ public class CryptoCandleServiceImpl implements CryptoCandleService {
     @Override
     public List<CryptoCandle> getCandles(String symbol) {
         return candleRepository.findBySymbol(symbol);
-    }
-
-    @Override
-    public void save(CryptoCandle candle) {
-        candleRepository.save(candle);
     }
 
     @Override
