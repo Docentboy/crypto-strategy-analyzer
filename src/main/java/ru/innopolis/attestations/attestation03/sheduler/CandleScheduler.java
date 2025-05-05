@@ -25,8 +25,8 @@ public class CandleScheduler {
     @Scheduled(cron = "0 0 2 * * *") // каждый день в 2:00 ночи
     public void fetchAndStoreDailyCandles() {
         String[] symbols = {"BTCUSDT", "ETHUSDT"};
-        LocalDate start = LocalDate.of(2021,01,01);
-        LocalDate end = LocalDate.of(2022,01,01);
+        LocalDate start = LocalDate.of(2020,01,01);
+        LocalDate end = LocalDate.of(2021,01,01);
         for (String symbol : symbols) {
             try {
                 log.info("Загрузка истории по {}, StartDate {}, EndDate {}", symbol, start, end);

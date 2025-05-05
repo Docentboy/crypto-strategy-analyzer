@@ -9,6 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ru.innopolis.attestations.attestation03.model.CryptoCandle;
 import ru.innopolis.attestations.attestation03.model.Portfolio;
 import ru.innopolis.attestations.attestation03.repository.CryptoCandleRepository;
+import ru.innopolis.attestations.attestation03.service.CryptoCandleService;
 import ru.innopolis.attestations.attestation03.service.strategy.DailyRebalanceStrategy;
 
 import java.math.BigDecimal;
@@ -26,11 +27,14 @@ class PortfolioSimulatorTest {
     @Mock
     private CryptoCandleRepository candleRepository;
 
+    @Mock
+    private CryptoCandleService candleService;
+
     private PortfolioSimulator simulator;
 
     @BeforeEach
     void setUp() {
-        simulator = new PortfolioSimulator(candleRepository, new DailyRebalanceStrategy());
+        simulator = new PortfolioSimulator(candleService, candleRepository, new DailyRebalanceStrategy());
 
         Mockito.when(candleRepository.findBySymbolAndDate(eq("BTCUSDT"), any()))
                 .thenReturn(Optional.of(new CryptoCandle(
