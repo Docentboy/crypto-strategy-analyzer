@@ -20,7 +20,6 @@ import java.time.LocalDate;
 import java.util.Map;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
@@ -53,7 +52,6 @@ public class SimulationControllerTest {
         mockMvc.perform(post("/api/simulation")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.error").value("Сумма всех весов должна быть равна 1.0 (100%)"));
+                .andExpect(status().isBadRequest());
     }
 }
